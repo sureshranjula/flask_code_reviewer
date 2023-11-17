@@ -1,0 +1,9 @@
+langchain
+streamlit
+python-dotenv
+azure-cosmos
+openai
+msal
+PyJWT
+flask
+markdown

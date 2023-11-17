@@ -1,0 +1,14 @@
+.feedback table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.feedback table, .feedback th, .feedback td {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.feedback pre {
+    background-color: #d4a2a2;
+    padding: 10px;
+}
