@@ -187,7 +187,8 @@ def review_code(code):
 # ...  
   
 @app.route('/', methods=['GET', 'POST'])  
-def index():  
+def index(): 
+    user_name = os.getenv('X-MS-CLIENT-PRINCIPAL-NAME')
     if request.method == 'POST':  
         code = request.form['code']  
         client = request.form['client']  
@@ -212,7 +213,7 @@ def index():
             return render_template('result.html', feedback=feedback_md, metrices=metrices ,nol = nol)  
         else:  
             error_message = "Please paste a code snippet."  
-            return render_template('index.html', error_message=error_message)  
+            return render_template('index.html', error_message=error_message, user_name=user_name )  
   
     else:  
         return render_template('index.html')  
