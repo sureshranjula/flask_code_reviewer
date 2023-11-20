@@ -56,7 +56,7 @@ def add_to_cosmos_db(defect_density, total_issues,issue_severity,adherence_to_co
     client = CosmosClient(url, credential=key)
 
     # Select database
-    database_name = 'codereview'
+    database_name = 'sparkdb'
     database = client.get_database_client(database_name)
 
     # Select container
