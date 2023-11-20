@@ -6,4 +6,4 @@ openai
 msal
 PyJWT
 flask
-markdown
+markdown2
