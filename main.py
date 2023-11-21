@@ -26,13 +26,13 @@ COSMOS_API_KEY = os.getenv("COSMOS_API_KEY")
 COSMOS_DB_NAME = os.getenv("COSMOS_DB_NAME")
 COSMOS_CONTAINER = os.getenv("COSMOS_CONTAINER_NAME")
 COSMOS_DB_URL = os.getenv("COSMOS_DB_URL")
-user_name = os.getenv('X-MS-CLIENT-PRINCIPAL-NAME')
+# user_name = os.getenv('X-MS-CLIENT-PRINCIPAL-NAME')
 # tenant_id = os.getenv('AZURE_AD_TENANT_ID')
 # client_id = os.getenv('AZURE_AD_CLIENT_ID')
 client_secret = os.getenv('AZURE_AD_CLIENT_SECRET')
   
 # Get the ID token from the server variables  
-id_token = os.getenv('X-MS-TOKEN-AAD-ID-TOKEN')  
+# id_token = os.getenv('X-MS-TOKEN-AAD-ID-TOKEN')  
 
 #Azure SDK
 from azure.cosmos import CosmosClient, PartitionKey, exceptions
@@ -206,6 +206,7 @@ def index():
         client = request.form['client']  
           
         if code:
+            id_token = request.headers.get('X-MS-TOKEN-AAD-ID-TOKEN')
             user_name, user_email = get_user_info_from_token(id_token)
             feedback = review_code(code)  
             metrices = extract_metrices(feedback.content)  
