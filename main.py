@@ -25,7 +25,7 @@ COSMOS_API_KEY = os.getenv("COSMOS_API_KEY")
 COSMOS_DB_NAME = os.getenv("COSMOS_DB_NAME")
 COSMOS_CONTAINER = os.getenv("COSMOS_CONTAINER_NAME")
 COSMOS_DB_URL = os.getenv("COSMOS_DB_URL")
-
+user_name = os.getenv('X-MS-CLIENT-PRINCIPAL-NAME')
 # tenant_id = os.getenv('AZURE_AD_TENANT_ID')
 # client_id = os.getenv('AZURE_AD_CLIENT_ID')
 client_secret = os.getenv('AZURE_AD_CLIENT_SECRET')
@@ -104,7 +104,7 @@ OWASP Top 10 and SANS Top 25: Not applicable to the provided code snippet.
 """
 
 # Check if necessary environment variables are set
-if not all([OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_API_BASE, OPENAI_API_KEY]):
+if not all([OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_API_BASE, OPENAI_API_KEY,user_name]):
     raise EnvironmentError("Required environment variables are not set.")
 
 #function to extract metrices
@@ -188,7 +188,7 @@ def review_code(code):
   
 @app.route('/', methods=['GET', 'POST'])  
 def index(): 
-    user_name = os.getenv('X-MS-CLIENT-PRINCIPAL-NAME')
+    
     if request.method == 'POST':  
         code = request.form['code']  
         client = request.form['client']  
