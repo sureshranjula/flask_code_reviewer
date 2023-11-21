@@ -10,7 +10,7 @@ from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 from azure.cosmos import CosmosClient, PartitionKey, exceptions  
 import markdown2
 import jwt
-
+from flask_login import current_user
 load_dotenv()
 app = Flask(__name__)  
 
@@ -200,7 +200,8 @@ def review_code(code):
   
 @app.route('/', methods=['GET', 'POST'])  
 def index(): 
-    
+    user_name = current_user.name
+    user_email = current_user.email
     if request.method == 'POST':  
         code = request.form['code']  
         client = request.form['client']  
