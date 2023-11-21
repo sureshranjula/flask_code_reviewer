@@ -7,3 +7,4 @@ msal
 PyJWT
 flask
 markdown2
+flask-login
