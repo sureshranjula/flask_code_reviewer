@@ -104,7 +104,7 @@ OWASP Top 10 and SANS Top 25: Not applicable to the provided code snippet.
 """
 
 # Check if necessary environment variables are set
-if not all([OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_API_BASE, OPENAI_API_KEY,user_name]):
+if not all([OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_API_BASE, OPENAI_API_KEY]):
     raise EnvironmentError("Required environment variables are not set.")
 
 #function to extract metrices
