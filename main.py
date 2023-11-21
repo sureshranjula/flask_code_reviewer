@@ -9,6 +9,7 @@ import uuid
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema  
 from azure.cosmos import CosmosClient, PartitionKey, exceptions  
 import markdown2
+import jwt
 
 load_dotenv()
 app = Flask(__name__)  
@@ -37,6 +38,17 @@ id_token = os.getenv('X-MS-TOKEN-AAD-ID-TOKEN')
 from azure.cosmos import CosmosClient, PartitionKey, exceptions
 
 
+
+
+def get_user_info_from_token(id_token):
+    # Decode the token without verification
+    decoded_token = jwt.decode(id_token, options={"verify_signature": False})
+
+    # Extract user information
+    user_name = decoded_token.get('name')
+    user_email = decoded_token.get('email')
+
+    return user_name, user_email
 
 def count_code_lines(code):
     lines = code.split('\n')
@@ -193,7 +205,8 @@ def index():
         code = request.form['code']  
         client = request.form['client']  
           
-        if code:  
+        if code:
+            user_name, user_email = get_user_info_from_token(id_token)
             feedback = review_code(code)  
             metrices = extract_metrices(feedback.content)  
             nol = count_code_lines(code)
@@ -213,7 +226,7 @@ def index():
             return render_template('result.html', feedback=feedback_md, metrices=metrices ,nol = nol)  
         else:  
             error_message = "Please paste a code snippet."  
-            return render_template('index.html', error_message=error_message, user_name=user_name )  
+            return render_template('index.html', error_message=error_message, user_name=user_name ,user_email=user_email)  
   
     else:  
         return render_template('index.html')  
