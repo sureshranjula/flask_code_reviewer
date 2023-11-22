@@ -8,3 +8,4 @@ PyJWT
 flask
 markdown2
 flask-login
+flask_azure_oauth 
