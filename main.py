@@ -231,17 +231,17 @@ def review_code(code):
 def index(): 
     
     token = auth.get_token()
-    user_name, user_email = get_user_info(access_token)  
+    user_name, user_email = get_user_info(token)  
     if request.method == 'POST':  
         code = request.form['code']  
         client = request.form['client']  
           
         if code:
             # id_token = request.headers.get('X-MS-TOKEN-AAD-ID-TOKEN')
-            token = auth.get_token()
+            # token = auth.get_token()
             # user_name = token['name']
             # user_email = token['email']
-            user_name, user_email = get_user_info_from_token(id_token)
+            # user_name, user_email = get_user_info_from_token(id_token)
             feedback = review_code(code)  
             metrices = extract_metrices(feedback.content)  
             nol = count_code_lines(code)
