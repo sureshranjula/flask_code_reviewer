@@ -1,6 +1,7 @@
-<!DOCTYPE html>  
-<html>  
-<head>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <title>Verdentra AI Code Buddy</title>  
     <style>
         body {
@@ -56,32 +57,40 @@
             resize: vertical; /* Allow vertical resizing */
         }
     </style>
-</head>  
-<body>  
-    <header>
-        <div class="container">
-            <img src="{{ url_for('static', filename='logo_dark.svg') }}" alt="Logo">
-            <h1>Spark AI Code Reviewer</h1>  
-            <p>Welcome, {{ user_email }}!</p>
-        </div>
-    </header>
-
+</head>
+<body>
+  <header>
     <div class="container">
-        {% if error_message %}  
-            <p style="color: red;">{{ error_message }}</p>  
-        {% endif %}  
-
-        <form method="POST">  
-            <label for="code">Paste your code snippet here:</label>  
-            <textarea id="code" name="code" rows="25" cols="100"></textarea>  
-            <label for="client">Select a client:</label>  
-            <select id="client" name="client">  
-                <option value="Verdentra">Verdentra</option>  
-                <option value="Paycor">Paycor</option>  
-                <option value="lentra">Lentra</option>  
-            </select>  
-            <input type="submit" value="Analyze">  
-        </form>  
+        <img src="{{ url_for('static', filename='logo_dark.svg') }}" alt="Logo">
+        <h1>Spark AI Code Reviewer</h1>  
+        
+        <p>Welcome, {{ user_name.get("name") }}!</p>
+        <li><a href="/logout">Logout</a></li>
     </div>
-</body>  
-</html>  
+</header>
+<div class="container">
+  {% if error_message %}  
+      <p style="color: red;">{{ error_message }}</p>  
+  {% endif %}  
+
+  <form method="POST">  
+      <label for="code">Paste your code snippet here:</label>  
+      <textarea id="code" name="code" rows="25" cols="100"></textarea>  
+      <label for="client">Select a client:</label>  
+      <select id="client" name="client">  
+          <option value="Verdentra">Verdentra</option>  
+          <option value="Paycor">Paycor</option>  
+          <option value="lentra">Lentra</option>  
+      </select>  
+      <input type="submit" value="Analyze">  
+  </form>  
+</div>
+     
+
+    
+    <hr>
+
+    <footer style="text-align: right">Powered by Verdentra </footer>
+</body>
+</html>
+
