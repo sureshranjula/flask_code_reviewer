@@ -10,11 +10,22 @@ from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 from azure.cosmos import CosmosClient, PartitionKey, exceptions  
 import markdown2
 import jwt
-from flask_login import current_user
+from flask_login import current_user ,LoginManager
+from flask_login import login_required
+from flask_azure_oauth import FlaskAzureOauth
 load_dotenv()
 app = Flask(__name__)  
 
 
+app.config.update({
+    'AZURE_OAUTH_APPLICATION_ID': 'e4d02f34-e3d8-48bb-b717-3754fa9d85b8',
+    'AZURE_OAUTH_TENANCY': '4258257d-d3fc-442c-9839-27f31a89da9e',
+    'AZURE_OAUTH_APPLICATION_SECRET': '4c0c2b2e-8f4b-4a50-8179-3bf20db642f2',
+})
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+auth = FlaskAzureOauth()
+auth.init_app(app)
 # Add your environment variables here  
 # ...  
   # Get environment variables
@@ -29,7 +40,7 @@ COSMOS_DB_URL = os.getenv("COSMOS_DB_URL")
 # user_name = os.getenv('X-MS-CLIENT-PRINCIPAL-NAME')
 # tenant_id = os.getenv('AZURE_AD_TENANT_ID')
 # client_id = os.getenv('AZURE_AD_CLIENT_ID')
-client_secret = os.getenv('AZURE_AD_CLIENT_SECRET')
+# client_secret = os.getenv('AZURE_AD_CLIENT_SECRET')
   
 # Get the ID token from the server variables  
 # id_token = os.getenv('X-MS-TOKEN-AAD-ID-TOKEN')  
@@ -198,17 +209,23 @@ def review_code(code):
 # Add your functions here  
 # ...  
   
-@app.route('/', methods=['GET', 'POST'])  
+@app.route('/', methods=['GET', 'POST']) 
+@auth()
 def index(): 
-    user_name = current_user.name
-    user_email = current_user.email
+    
+    token = auth.get_token()
+    user_name = token['name']
+    user_email = token['email']
     if request.method == 'POST':  
         code = request.form['code']  
         client = request.form['client']  
           
         if code:
-            id_token = request.headers.get('X-MS-TOKEN-AAD-ID-TOKEN')
-            user_name, user_email = get_user_info_from_token(id_token)
+            # id_token = request.headers.get('X-MS-TOKEN-AAD-ID-TOKEN')
+            token = auth.get_token()
+            user_name = token['name']
+            user_email = token['email']
+            # user_name, user_email = get_user_info_from_token(id_token)
             feedback = review_code(code)  
             metrices = extract_metrices(feedback.content)  
             nol = count_code_lines(code)
@@ -225,7 +242,7 @@ def index():
             
             feedback_md = markdown2.markdown(str(feedback.content), extras=["tables","fenced-code-blocks"])
               
-            return render_template('result.html', feedback=feedback_md, metrices=metrices ,nol = nol)  
+            return render_template('result.html', feedback=feedback_md, metrices=metrices ,nol = nol ,user_name=user_name)  
         else:  
             error_message = "Please paste a code snippet."  
             return render_template('index.html', error_message=error_message, user_name=user_name ,user_email=user_email)  
