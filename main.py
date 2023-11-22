@@ -16,19 +16,6 @@ from flask_azure_oauth import FlaskAzureOauth
 load_dotenv()
 app = Flask(__name__)  
 
-
-app.config.update({
-    'AZURE_OAUTH_APPLICATION_ID': 'e4d02f34-e3d8-48bb-b717-3754fa9d85b8',
-    'AZURE_OAUTH_TENANCY': '4258257d-d3fc-442c-9839-27f31a89da9e',
-    'AZURE_OAUTH_APPLICATION_SECRET': '4c0c2b2e-8f4b-4a50-8179-3bf20db642f2',
-})
-# login_manager = LoginManager()
-# login_manager.init_app(app)
-auth = FlaskAzureOauth()
-auth.init_app(app)
-# Add your environment variables here  
-# ...  
-  # Get environment variables
 OPENAI_API_TYPE = os.getenv("OPENAI_API_TYPE")
 OPENAI_API_VERSION = os.getenv("OPENAI_API_VERSION")
 OPENAI_API_BASE = os.getenv("OPENAI_API_BASE")
@@ -37,7 +24,24 @@ COSMOS_API_KEY = os.getenv("COSMOS_API_KEY")
 COSMOS_DB_NAME = os.getenv("COSMOS_DB_NAME")
 COSMOS_CONTAINER = os.getenv("COSMOS_CONTAINER_NAME")
 COSMOS_DB_URL = os.getenv("COSMOS_DB_URL")
-# user_name = os.getenv('X-MS-CLIENT-PRINCIPAL-NAME')
+AZURE_APP_ID = os.getenv("AZURE_OAUTH_APPLICATION_ID")
+AZURE_TENANCY = os.getenv("AZURE_OAUTH_TENANCY")
+AZURE_APP_SECRET = os.getenv("AZURE_OAUTH_APPLICATION_SECRET")
+
+app.config.update({
+    'AZURE_OAUTH_APPLICATION_ID': AZURE_APP_ID,
+    'AZURE_OAUTH_TENANCY': AZURE_TENANCY,
+    'AZURE_OAUTH_APPLICATION_SECRET': AZURE_APP_SECRET,
+})
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+auth = FlaskAzureOauth()
+auth.init_app(app)
+# Add your environment variables here  
+# ...  
+  # Get environment variables
+
+# user_namee = os.getenv('X-MS-CLIENT-PRINCIPAL-NAME')
 # tenant_id = os.getenv('AZURE_AD_TENANT_ID')
 # client_id = os.getenv('AZURE_AD_CLIENT_ID')
 # client_secret = os.getenv('AZURE_AD_CLIENT_SECRET')
