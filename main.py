@@ -15,7 +15,11 @@ from flask_login import login_required
 from flask_azure_oauth import FlaskAzureOauth
 load_dotenv()
 app = Flask(__name__)  
+from flask_login import LoginManager
 
+app = Flask(__name__)
+login_manager = LoginManager()
+login_manager.init_app(app)
 OPENAI_API_TYPE = os.getenv("OPENAI_API_TYPE")
 OPENAI_API_VERSION = os.getenv("OPENAI_API_VERSION")
 OPENAI_API_BASE = os.getenv("OPENAI_API_BASE")
