@@ -32,7 +32,7 @@ B2C_RESET_PASSWORD_AUTHORITY = authority_template.format(
     # "Recommended user flow" (https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-versions),
     # you can remove the resetpassword_user_flow and the B2C_RESET_PASSWORD_AUTHORITY settings from this file.
 
-REDIRECT_PATH = "/getAToken"  # Used for forming an absolute URL to your redirect URI.
+REDIRECT_PATH = "/.auth/login/aad/callback"  # Used for forming an absolute URL to your redirect URI.
                               # The absolute URL must match the redirect URI you set
                               # in the app's registration in the Azure portal.
 
